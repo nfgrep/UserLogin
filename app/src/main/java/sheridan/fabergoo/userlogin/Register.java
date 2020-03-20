@@ -55,6 +55,7 @@ public class Register extends Fragment {
         }
 
         mBtnRegister.setOnClickListener(v -> onRegisterClick());
+        mTvBtnLogin.setOnClickListener(v -> mNav.navigate(R.id.action_register_to_login));
     }
 
     private void onRegisterClick(){
@@ -83,6 +84,7 @@ public class Register extends Fragment {
                                             this.getContext(),
                                             "Error: " + task.getException().getMessage(),
                                             Toast.LENGTH_LONG).show();
+
                                 }
                             });
 

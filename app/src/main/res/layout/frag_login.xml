@@ -86,14 +86,12 @@
         app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
 
     <ProgressBar
-        android:id="@+id/pbFirebaseCreateUser"
+        android:id="@+id/pbFirebaseLogin"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtPhone" />
+        app:layout_constraintTop_toBottomOf="@+id/edtPass" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

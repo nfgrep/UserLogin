@@ -13,9 +13,28 @@
         <action
             android:id="@+id/action_register_to_profile"
             app:destination="@id/profile" />
+        <action
+            android:id="@+id/action_register_to_login"
+            app:destination="@id/login" />
     </fragment>
     <fragment
         android:id="@+id/profile"
         android:name="sheridan.fabergoo.userlogin.Profile"
-        android:label="Profile" />
+        android:label="Profile" >
+        <action
+            android:id="@+id/action_profile_to_login"
+            app:destination="@id/login" />
+    </fragment>
+    <fragment
+        android:id="@+id/login"
+        android:name="sheridan.fabergoo.userlogin.Login"
+        android:label="frag_login"
+        tools:layout="@layout/frag_login" >
+        <action
+            android:id="@+id/action_login_to_register"
+            app:destination="@id/register" />
+        <action
+            android:id="@+id/action_login_to_profile"
+            app:destination="@id/profile" />
+    </fragment>
 </navigation>
