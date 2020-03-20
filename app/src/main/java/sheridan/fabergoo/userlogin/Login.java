@@ -41,11 +41,13 @@ public class Login extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mNav = Navigation.findNavController(view);
+        mFirebaseAuth = FirebaseAuth.getInstance();
         mTvBtnRegister = view.findViewById(R.id.tvBtnRegister);
         mTvHeaderLogin = view.findViewById(R.id.tvHeaderLogin);
         mBtnLogin = view.findViewById(R.id.btnLogin);
         mPbLogin = view.findViewById(R.id.pbFirebaseLogin);
-        mPbLogin.setVisibility(View.GONE);
+        mEdtEmail = view.findViewById(R.id.edtEmailLogin);
+        mEdtPass = view.findViewById(R.id.edtPassLogin);
 
         mTvBtnRegister.setOnClickListener(v -> mNav.navigate(R.id.action_login_to_register));
         mBtnLogin.setOnClickListener(v -> {
@@ -61,17 +63,23 @@ public class Login extends Fragment {
                     mFirebaseAuth.signInWithEmailAndPassword(email, pass)
                             .addOnCompleteListener(task -> {
                                 if(task.isSuccessful()){
-                                    String uname = Objects
-                                            .requireNonNull(mFirebaseAuth.getCurrentUser())
-                                            .getDisplayName();
-
                                     Toast.makeText(
                                             this.getContext(),
-                                            "User " + uname + " Logged in",
+                                            "User " + "NAME" + " Logged in",
                                             Toast.LENGTH_SHORT).show();
 
                                     mNav.navigate(R.id.action_login_to_profile);
-                                   }
+
+                                   }else{
+                                    Toast.makeText(
+                                            this.getContext(), "Error: " + task
+                                            .getException().getMessage(),
+                                            Toast.LENGTH_LONG).show();
+
+                                    mTvBtnRegister.setVisibility(View.VISIBLE);
+                                    mBtnLogin.setVisibility(View.VISIBLE);
+                                    mPbLogin.setVisibility(View.GONE);
+                                }
                             });
 
                 }else{

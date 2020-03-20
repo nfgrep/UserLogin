@@ -40,7 +40,7 @@ public class Register extends Fragment {
         mNav = Navigation.findNavController(view);
 
         mEdtUsrName = view.findViewById(R.id.edtUsrName);
-        mEdtEmail = view.findViewById(R.id.edtEmail);
+        mEdtEmail = view.findViewById(R.id.edtEmailRegister);
         mEdtPass1 = view.findViewById(R.id.edtPass1);
         mEdtPass2 = view.findViewById(R.id.edtPass2);
         mEdtPhone = view.findViewById(R.id.edtPhone);
@@ -84,6 +84,10 @@ public class Register extends Fragment {
                                             this.getContext(),
                                             "Error: " + task.getException().getMessage(),
                                             Toast.LENGTH_LONG).show();
+
+                                    mTvBtnLogin.setVisibility(View.VISIBLE);
+                                    mBtnRegister.setVisibility(View.VISIBLE);
+                                    mProgressBar.setVisibility(View.GONE);
 
                                 }
                             });
