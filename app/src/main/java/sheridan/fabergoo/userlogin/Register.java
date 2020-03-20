@@ -44,11 +44,15 @@ public class Register extends Fragment {
         mEdtPass1 = view.findViewById(R.id.edtPass1);
         mEdtPass2 = view.findViewById(R.id.edtPass2);
         mEdtPhone = view.findViewById(R.id.edtPhone);
-        mBtnRegister = view.findViewById(R.id.btnLogin);
-        mTvBtnLogin = view.findViewById(R.id.tvLogin);
-        mTvHeader = view.findViewById(R.id.tvHeader);
+        mBtnRegister = view.findViewById(R.id.btnRegister);
+        mTvBtnLogin = view.findViewById(R.id.tvBtnLogin);
+        mTvHeader = view.findViewById(R.id.tvRegisterHeader);
         mFirebaseAuth = FirebaseAuth.getInstance();
         mProgressBar = view.findViewById(R.id.pbFirebaseCreateUser);
+
+        if(mFirebaseAuth.getCurrentUser() != null){
+            mNav.navigate(R.id.action_register_to_profile);
+        }
 
         mBtnRegister.setOnClickListener(v -> onRegisterClick());
     }
@@ -65,20 +69,20 @@ public class Register extends Fragment {
                     mBtnRegister.setVisibility(View.GONE);
                     mProgressBar.setVisibility(View.VISIBLE);
 
-
                     mFirebaseAuth.createUserWithEmailAndPassword(email,pass1)
                             .addOnCompleteListener(task -> {
                                 if(task.isSuccessful()){
-
                                     Toast.makeText(
                                             this.getContext(),
                                             "User" + "NAME" + "Created",
-                                            Toast.LENGTH_SHORT
-                                    ).show();
-
+                                            Toast.LENGTH_SHORT).show();
                                     mNav.navigate(R.id.action_register_to_profile);
-                                }else{
 
+                                }else{
+                                    Toast.makeText(
+                                            this.getContext(),
+                                            "Error: " + task.getException().getMessage(),
+                                            Toast.LENGTH_LONG).show();
                                 }
                             });
 

@@ -9,10 +9,10 @@
     tools:context=".Register">
 
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/tvRegisterTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Prepr Challenge App"
+        android:text="Auth Demo"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -22,7 +22,7 @@
         app:layout_constraintVertical_bias="0.100000024" />
 
     <TextView
-        android:id="@+id/tvHeader"
+        android:id="@+id/tvRegisterHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -30,7 +30,7 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRegisterTitle" />
 
     <EditText
         android:id="@+id/edtUsrName"
@@ -45,7 +45,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvHeader" />
+        app:layout_constraintTop_toBottomOf="@+id/tvRegisterHeader" />
 
     <EditText
         android:id="@+id/edtEmail"
@@ -106,7 +106,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edtPass2" />
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnRegister"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -116,7 +116,7 @@
         app:layout_constraintTop_toBottomOf="@+id/edtPhone" />
 
     <TextView
-        android:id="@+id/tvLogin"
+        android:id="@+id/tvBtnLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -126,7 +126,7 @@
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/btnRegister" />
 
     <ProgressBar
         android:id="@+id/pbFirebaseCreateUser"
