@@ -46,7 +46,7 @@ public class Register extends Fragment {
         mEdtPhone = view.findViewById(R.id.edtPhone);
         mBtnRegister = view.findViewById(R.id.btnRegister);
         mTvBtnLogin = view.findViewById(R.id.tvBtnLogin);
-        mTvHeader = view.findViewById(R.id.tvRegisterHeader);
+        mTvHeader = view.findViewById(R.id.tvHeaderRegister);
         mFirebaseAuth = FirebaseAuth.getInstance();
         mProgressBar = view.findViewById(R.id.pbFirebaseCreateUser);
 

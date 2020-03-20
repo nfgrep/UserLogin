@@ -2,7 +2,6 @@ package sheridan.fabergoo.userlogin;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -15,12 +14,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.util.Objects;
+
 public class Login extends Fragment {
 
-    TextView mTvBtnRegister;
+    TextView mTvBtnRegister, mTvHeaderLogin;
     Button mBtnLogin;
     ProgressBar mPbLogin;
     EditText mEdtEmail, mEdtPass;
@@ -39,13 +41,46 @@ public class Login extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mNav = Navigation.findNavController(view);
-
         mTvBtnRegister = view.findViewById(R.id.tvBtnRegister);
+        mTvHeaderLogin = view.findViewById(R.id.tvHeaderLogin);
         mBtnLogin = view.findViewById(R.id.btnLogin);
         mPbLogin = view.findViewById(R.id.pbFirebaseLogin);
         mPbLogin.setVisibility(View.GONE);
 
         mTvBtnRegister.setOnClickListener(v -> mNav.navigate(R.id.action_login_to_register));
+        mBtnLogin.setOnClickListener(v -> {
+            String email = mEdtEmail.getText().toString().trim();
+            String pass = mEdtPass.getText().toString().trim();
+
+            if(!email.isEmpty() && !pass.isEmpty()){
+                if(pass.length() > 6){
+                    mTvBtnRegister.setVisibility(View.GONE);
+                    mBtnLogin.setVisibility(View.GONE);
+                    mPbLogin.setVisibility(View.VISIBLE);
+
+                    mFirebaseAuth.signInWithEmailAndPassword(email, pass)
+                            .addOnCompleteListener(task -> {
+                                if(task.isSuccessful()){
+                                    String uname = Objects
+                                            .requireNonNull(mFirebaseAuth.getCurrentUser())
+                                            .getDisplayName();
+
+                                    Toast.makeText(
+                                            this.getContext(),
+                                            "User " + uname + " Logged in",
+                                            Toast.LENGTH_SHORT).show();
+
+                                    mNav.navigate(R.id.action_login_to_profile);
+                                   }
+                            });
+
+                }else{
+                    mEdtPass.setError("Must be longer that 6 characters");
+                }
+            }else{
+                mTvHeaderLogin.setError("Please fill all fields");
+            }
+        });
 
     }
 }
