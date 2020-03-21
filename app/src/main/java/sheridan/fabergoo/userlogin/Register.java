@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Register extends Fragment {
 
@@ -26,6 +28,8 @@ public class Register extends Fragment {
     FirebaseAuth mFirebaseAuth;
     NavController mNav;
     ProgressBar mProgressBar;
+    String userID;
+    FirebaseFirestore db;
 
     @Nullable
     @Override
@@ -62,6 +66,8 @@ public class Register extends Fragment {
         String email = mEdtEmail.getText().toString().trim();
         String pass1 = mEdtPass1.getText().toString().trim();
         String pass2 = mEdtPass2.getText().toString().trim();
+        String uname = mEdtUsrName.getText().toString().trim();
+        String phone = mEdtPhone.getText().toString().trim();
 
         if(!email.isEmpty() && !pass1.isEmpty() && !pass2.isEmpty()){
             if(pass1.length() > 6){
@@ -73,10 +79,22 @@ public class Register extends Fragment {
                     mFirebaseAuth.createUserWithEmailAndPassword(email,pass1)
                             .addOnCompleteListener(task -> {
                                 if(task.isSuccessful()){
+
+                                    // Gets uID of newly created user
+                                    userID = mFirebaseAuth.getCurrentUser().getUid();
+
+                                    // Creates reference to "users" collection, creates collection
+                                    // if not already existing in db. Adds a document "userID" to
+                                    // the collection.
+                                    DocumentReference documentReference = db
+                                            .collection("users").document(userID);
+
+                                    // Display message
                                     Toast.makeText(
                                             this.getContext(),
                                             "User" + "NAME" + "Created",
                                             Toast.LENGTH_SHORT).show();
+                                    // Navigate to profile
                                     mNav.navigate(R.id.action_register_to_profile);
 
                                 }else{
