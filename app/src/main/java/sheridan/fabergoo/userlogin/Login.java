@@ -86,7 +86,7 @@ public class Login extends Fragment {
                     mEdtPass.setError("Must be longer that 6 characters");
                 }
             }else{
-                mTvHeaderLogin.setError("Please fill all fields");
+                mEdtEmail.setError("Please fill all fields");
             }
         });
 

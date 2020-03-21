@@ -22,17 +22,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class Register extends Fragment {
 
-    EditText mEdtUsrName, mEdtEmail, mEdtPass1, mEdtPass2, mEdtPhone;
-    Button mBtnRegister;
-    TextView mTvBtnLogin, mTvHeader;
-    FirebaseAuth mFirebaseAuth;
-    NavController mNav;
-    ProgressBar mProgressBar;
-    String uID;
-    FirebaseFirestore mFirebaseFirestore;
+    private EditText mEdtUsrName, mEdtEmail, mEdtPass1, mEdtPass2, mEdtPhone;
+    private Button mBtnRegister;
+    private TextView mTvBtnLogin, mTvHeader;
+    private FirebaseAuth mFirebaseAuth;
+    private NavController mNav;
+    private ProgressBar mProgressBar;
+    private String uID;
+    private FirebaseFirestore mFirebaseFirestore;
 
     @Nullable
     @Override
@@ -57,11 +58,12 @@ public class Register extends Fragment {
         mProgressBar = view.findViewById(R.id.pbFirebaseCreateUser);
 
         mFirebaseAuth = FirebaseAuth.getInstance();
+        mFirebaseFirestore = FirebaseFirestore.getInstance();
+
+        // Navigates straight to Profile fragment if user is already logged-in
         if(mFirebaseAuth.getCurrentUser() != null){
             mNav.navigate(R.id.action_register_to_profile);
         }
-
-        mFirebaseFirestore = FirebaseFirestore.getInstance();
 
         mBtnRegister.setOnClickListener(v -> onRegisterClick());
         mTvBtnLogin.setOnClickListener(v -> mNav.navigate(R.id.action_register_to_login));
@@ -74,19 +76,25 @@ public class Register extends Fragment {
         String uname = mEdtUsrName.getText().toString().trim();
         String phone = mEdtPhone.getText().toString().trim();
 
+        // Input validation
         if(!email.isEmpty() && !pass1.isEmpty() && !pass2.isEmpty()){
             if(pass1.length() > 6){
                 if(pass1.equals(pass2)){
+
+                    // Shows loading spinner and hides buttons.
                     mTvBtnLogin.setVisibility(View.GONE);
                     mBtnRegister.setVisibility(View.GONE);
                     mProgressBar.setVisibility(View.VISIBLE);
 
+                    // Creates a new user in cloud authentication storage.
+                    // Listens for when user is successfully added to cloud.
                     mFirebaseAuth.createUserWithEmailAndPassword(email,pass1)
                             .addOnCompleteListener(task -> {
                                 if(task.isSuccessful()){
 
-                                    // Gets uID of newly created user
-                                    uID = mFirebaseAuth.getCurrentUser().getUid();
+                                    // Gets uID of newly created user.
+                                    uID = Objects.requireNonNull(mFirebaseAuth.getCurrentUser())
+                                            .getUid();
 
                                     // Creates reference to "users" collection, creates collection
                                     // if not already existing in db. Adds a document "userID" to
@@ -94,13 +102,13 @@ public class Register extends Fragment {
                                     DocumentReference documentReference = mFirebaseFirestore
                                             .collection("users").document(uID);
 
-                                    // A local instance of document(object) we want to store
+                                    // A local instance of document(object) we want to store.
                                     Map<String,Object> user = new HashMap<>();
                                     user.put("uname", uname);
                                     user.put("email", email);
                                     user.put("phone", phone);
 
-                                    // Inserts the local document into the db at documentReference
+                                    // Inserts the local document into the db at documentReference.
                                     documentReference.set(user).addOnSuccessListener(v -> {
                                         Toast.makeText(
                                                 this.getContext(),
@@ -108,16 +116,19 @@ public class Register extends Fragment {
                                                 Toast.LENGTH_SHORT).show();
                                     });
 
-
-                                    // Navigate to profile
+                                    // Navigates to Profile fragment after user is registered.
                                     mNav.navigate(R.id.action_register_to_profile);
 
                                 }else{
+                                    // Error message if creating new user is unsuccessful.
                                     Toast.makeText(
                                             this.getContext(),
-                                            "Error: " + task.getException().getMessage(),
+                                            "Error: " + Objects.requireNonNull(
+                                                    task.getException()
+                                            ).getMessage(),
                                             Toast.LENGTH_LONG).show();
 
+                                    // Sets buttons visible again and hides loading spinner.
                                     mTvBtnLogin.setVisibility(View.VISIBLE);
                                     mBtnRegister.setVisibility(View.VISIBLE);
                                     mProgressBar.setVisibility(View.GONE);
@@ -132,7 +143,7 @@ public class Register extends Fragment {
                 mEdtPass1.setError("Must be longer that 6 characters");
             }
         }else{
-            mTvHeader.setError("Please fill all fields");
+            mEdtUsrName.setError("Please fill all fields");
         }
 
     }

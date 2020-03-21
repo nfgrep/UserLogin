@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.ListenerRegistration;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,13 +19,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 public class Profile extends Fragment {
-
-    TextView mTvUname, mTvEmail, mTvPhone;
-    Button mBtnLogout;
-    NavController mNav;
-    FirebaseAuth mFirebaseAuth;
-    String uID;
-    FirebaseFirestore mFirebaseFirestore;
 
     @Nullable
     @Override
@@ -36,34 +30,38 @@ public class Profile extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mNav = Navigation.findNavController(view);
-        mFirebaseFirestore = FirebaseFirestore.getInstance();
-        mFirebaseAuth = FirebaseAuth.getInstance();
+        NavController mNav = Navigation.findNavController(view);
+        FirebaseFirestore firebaseFirestore = FirebaseFirestore.getInstance();
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-        uID = mFirebaseAuth.getCurrentUser().getUid();
+        // Gets the uID of current logged-in user, this uID is the key used to retrieve data from db
+        String uID = firebaseAuth.getCurrentUser().getUid();
 
         // Creates a reference to an existing document at "uID" in collection "users" from the db
         DocumentReference documentReference =
-                mFirebaseFirestore.collection("users").document(uID);
+                firebaseFirestore.collection("users").document(uID);
 
-        mTvUname = view.findViewById(R.id.tvUname);
-        mTvEmail = view.findViewById(R.id.tvEmail);
-        mTvPhone = view.findViewById(R.id.tvPhone);
+        TextView mTvUname = view.findViewById(R.id.tvUname);
+        TextView mTvEmail = view.findViewById(R.id.tvEmail);
+        TextView mTvPhone = view.findViewById(R.id.tvPhone);
+        Button btnLogout = view.findViewById(R.id.btnLogout);
 
         // Adds listener on document reference for realtime updating of data in view
         // This callback is fired once upon attaching, and anytime the cloud data is updated
-        documentReference.addSnapshotListener((snapshot, e) -> {
-            mTvUname.setText(snapshot.getString("uname"));
-            mTvEmail.setText(snapshot.getString("email"));
-            mTvPhone.setText(snapshot.getString("phone"));
-        });
+
+        ListenerRegistration listenerRegistration =
+                documentReference.addSnapshotListener( (snapshot, e) -> {
+                    assert snapshot != null;
+                    mTvUname.setText(snapshot.getString("uname"));
+                    mTvEmail.setText(snapshot.getString("email"));
+                    mTvPhone.setText(snapshot.getString("phone"));
+                });
 
 
-
-
-
-        mBtnLogout = view.findViewById(R.id.btnLogout);
-        mBtnLogout.setOnClickListener(v -> {
+        // Signs user out and navigates to login fragment.
+        // Removes listener to stop from trying to update data after user is logs-out.
+        btnLogout.setOnClickListener(v -> {
+            listenerRegistration.remove();
             FirebaseAuth.getInstance().signOut();
             mNav.navigate(R.id.action_profile_to_login);
         });
