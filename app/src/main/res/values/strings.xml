@@ -1,12 +1,18 @@
 <resources>
     <string name="app_name">UserLogin</string>
-    <string name="auth_demo">Auth Demo</string>
     <string name="create_account">Create Account</string>
-    <string name="email">Email</string>
     <string name="user_name">User Name</string>
-    <string name="password">Password</string>
     <string name="register">Register</string>
-    <string name="login">Login</string>
     <string name="phone">Phone</string>
     <string name="confirm_password">Confirm Password</string>
+    <string name="profile">Profile</string>
+    <string name="logout">Logout</string>
+    <string name="no_name_found">No Name Found</string>
+    <string name="no_email_found">No Email Found</string>
+    <string name="no_phone_found">No Phone Found</string>
+    <string name="auth_demo">Auth Demo</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="register_new_account">Register New Account</string>
 </resources>

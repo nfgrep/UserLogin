@@ -22,13 +22,13 @@ import java.util.Objects;
 
 public class Login extends Fragment {
 
-    TextView mTvBtnRegister, mTvHeaderLogin;
-    Button mBtnLogin;
-    ProgressBar mPbLogin;
-    EditText mEdtEmail, mEdtPass;
-    FirebaseAuth mFirebaseAuth;
+    private TextView mTvBtnRegister, mTvHeaderLogin;
+    private Button mBtnLogin;
+    private ProgressBar mPbLogin;
+    private EditText mEdtEmail, mEdtPass;
+    private FirebaseAuth mFirebaseAuth;
 
-    NavController mNav;
+    private NavController mNav;
 
     @Nullable
     @Override
@@ -65,15 +65,16 @@ public class Login extends Fragment {
                                 if(task.isSuccessful()){
                                     Toast.makeText(
                                             this.getContext(),
-                                            "User " + "NAME" + " Logged in",
+                                            "Log in Successful",
                                             Toast.LENGTH_SHORT).show();
 
                                     mNav.navigate(R.id.action_login_to_profile);
 
                                    }else{
                                     Toast.makeText(
-                                            this.getContext(), "Error: " + task
-                                            .getException().getMessage(),
+                                            this.getContext(), "Error: " +
+                                                    Objects.requireNonNull(
+                                                            task.getException()).getMessage(),
                                             Toast.LENGTH_LONG).show();
 
                                     mTvBtnRegister.setVisibility(View.VISIBLE);

@@ -12,7 +12,7 @@
         android:id="@+id/tvTitleLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Auth Demo"
+        android:text="@string/auth_demo"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Login"
+        android:text="@string/login"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,11 +41,12 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvHeaderLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/tvHeaderLogin"
+        android:autofillHints="" />
 
     <EditText
         android:id="@+id/edtPassLogin"
@@ -55,11 +56,12 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmailLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/edtEmailLogin"
+        android:autofillHints="" />
 
 
     <Button
@@ -67,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Login"
+        android:text="@string/login"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtPassLogin" />
@@ -77,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Register New Account"
+        android:text="@string/register_new_account"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textColor="#2D49FF"
         android:textSize="18sp"
