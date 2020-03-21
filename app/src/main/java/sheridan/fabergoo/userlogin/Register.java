@@ -31,7 +31,7 @@ public class Register extends Fragment {
     FirebaseAuth mFirebaseAuth;
     NavController mNav;
     ProgressBar mProgressBar;
-    String userID;
+    String uID;
     FirebaseFirestore mFirebaseFirestore;
 
     @Nullable
@@ -86,13 +86,13 @@ public class Register extends Fragment {
                                 if(task.isSuccessful()){
 
                                     // Gets uID of newly created user
-                                    userID = mFirebaseAuth.getCurrentUser().getUid();
+                                    uID = mFirebaseAuth.getCurrentUser().getUid();
 
                                     // Creates reference to "users" collection, creates collection
                                     // if not already existing in db. Adds a document "userID" to
                                     // the collection, and returns its reference.
                                     DocumentReference documentReference = mFirebaseFirestore
-                                            .collection("users").document(userID);
+                                            .collection("users").document(uID);
 
                                     // A local instance of document(object) we want to store
                                     Map<String,Object> user = new HashMap<>();
