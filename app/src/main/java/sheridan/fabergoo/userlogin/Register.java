@@ -20,6 +20,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Register extends Fragment {
 
     EditText mEdtUsrName, mEdtEmail, mEdtPass1, mEdtPass2, mEdtPhone;
@@ -29,7 +32,7 @@ public class Register extends Fragment {
     NavController mNav;
     ProgressBar mProgressBar;
     String userID;
-    FirebaseFirestore db;
+    FirebaseFirestore mFirebaseFirestore;
 
     @Nullable
     @Override
@@ -51,12 +54,14 @@ public class Register extends Fragment {
         mBtnRegister = view.findViewById(R.id.btnRegister);
         mTvBtnLogin = view.findViewById(R.id.tvBtnLogin);
         mTvHeader = view.findViewById(R.id.tvHeaderRegister);
-        mFirebaseAuth = FirebaseAuth.getInstance();
         mProgressBar = view.findViewById(R.id.pbFirebaseCreateUser);
 
+        mFirebaseAuth = FirebaseAuth.getInstance();
         if(mFirebaseAuth.getCurrentUser() != null){
             mNav.navigate(R.id.action_register_to_profile);
         }
+
+        mFirebaseFirestore = FirebaseFirestore.getInstance();
 
         mBtnRegister.setOnClickListener(v -> onRegisterClick());
         mTvBtnLogin.setOnClickListener(v -> mNav.navigate(R.id.action_register_to_login));
@@ -85,15 +90,25 @@ public class Register extends Fragment {
 
                                     // Creates reference to "users" collection, creates collection
                                     // if not already existing in db. Adds a document "userID" to
-                                    // the collection.
-                                    DocumentReference documentReference = db
+                                    // the collection, and returns its reference.
+                                    DocumentReference documentReference = mFirebaseFirestore
                                             .collection("users").document(userID);
 
-                                    // Display message
-                                    Toast.makeText(
-                                            this.getContext(),
-                                            "User" + "NAME" + "Created",
-                                            Toast.LENGTH_SHORT).show();
+                                    // A local instance of document(object) we want to store
+                                    Map<String,Object> user = new HashMap<>();
+                                    user.put("uname", uname);
+                                    user.put("email", email);
+                                    user.put("phone", phone);
+
+                                    // Inserts the local document into the db at documentReference
+                                    documentReference.set(user).addOnSuccessListener(v -> {
+                                        Toast.makeText(
+                                                this.getContext(),
+                                                "User \'" + uname + "\' Created",
+                                                Toast.LENGTH_SHORT).show();
+                                    });
+
+
                                     // Navigate to profile
                                     mNav.navigate(R.id.action_register_to_profile);
 
