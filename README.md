@@ -1,2 +1,2 @@
 # UserLogin
-## android demo app for login/registering users with Firebase Auth
+Android demo app for authenticating and storing user data with Firebase Authentication and Firebase Firestore
